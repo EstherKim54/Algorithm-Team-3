@@ -6,6 +6,10 @@
 
 # · 비고: YES/NO 출력 형식에 유의
 
+import json
+import os
+import pandas as pd
+
 # 이진탐색 구현 (반복)
 def binary_search_iterative(arr, target, key=lambda x: x):
     """ 반복형 이진 탐색 (key 지원)"""
