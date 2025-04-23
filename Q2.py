@@ -59,37 +59,27 @@ def solve_list_problem_2(arr, target):
     print(f"▶ 반복형 결과: {result_iter}")
     print(f"▶ 재귀형 결과: {result_rec}")
 
-# 딕셔너리를 인자로 받아서 탐색
-def solve_dict_problem_2(arr, target, key_name=None):
+# 딕셔너리 전용 이진 탐색 함수
+def solve_dict_problem_2(arr, target, key_name):
     """
-    arr      : 정렬된 리스트. 요소가 숫자/문자열인지, dict인지 자동 감지.
+    arr      : 정렬된 딕셔너리 리스트
     target   : 탐색할 값
-    key_name : dict 요소를 탐색할 때 사용할 키 (예: "score" or "name").
-               기본 None 이면 숫자/문자열 리스트 모드로 간주.
+    key_name : 비교에 사용할 딕셔너리 키 (예: "score", "name")
     """
-    # --- 리스트 모드 ---
     if key_name is None:
-        print("📋 검색 대상 리스트 (원소 자체 비교):")
-        print(arr)
+        raise ValueError("딕셔너리 탐색을 위해 key_name이 필요합니다.")
 
-        # 반복형 이분 탐색
-        result_iter = binary_search_iterative(arr, target)
-        # 재귀형 이분 탐색
-        result_rec  = binary_search_recursive(arr, target, 0, len(arr) - 1)
+    # 검색 대상 출력
+    print(f"📋 검색 대상 리스트 ({key_name} 기준):")
+    for item in arr:
+        print(item)
 
-    # --- 딕셔너리 모드 ---
-    else:
-        # key_name 기준으로 정렬
-        # arr = sorted(arr, key=lambda x: x[key_name]) # 정렬을 해주는 코드 (키를 기준으로)
-        print(f"📋 검색 대상 리스트 ({key_name} 기준 정렬):")
-        for item in arr:
-            print(item)
+    # 반복형 이진 탐색
+    result_iter = binary_search_iterative(arr, target, key=lambda x: x[key_name])
+    # 재귀형 이진 탐색
+    result_rec  = binary_search_recursive(arr, target, 0, len(arr) - 1, key=lambda x: x[key_name])
 
-        # 반복형 이분 탐색 (key 지원)
-        result_iter = binary_search_iterative(arr, target, key=lambda x: x[key_name])
-        # 재귀형 이분 탐색
-        result_rec  = binary_search_recursive(arr, target, 0, len(arr) - 1, key=lambda x: x[key_name])
-
-    # --- 결과 출력 ---
+    # 결과 출력
     print(f"▶ 반복형 결과: {result_iter}")
     print(f"▶ 재귀형 결과: {result_rec}")
+
