@@ -1,3 +1,4 @@
+#1. Timsort 직접 구현 코드
 import time
 
 MIN_MERGE = 32
@@ -80,3 +81,29 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#------------------------------------------------------------------------------------------------
+#2. 내장 함수로 구현
+
+import time
+
+def main():
+    file_path = "/Users/gimjuyeong/Downloads/random_integers.txt"
+
+    start_time = time.time()
+
+    with open(file_path, "r") as file:
+        content = file.read().split()  # 모든 숫자를 공백 기준으로 분할
+        n = int(content[0])            # 첫 번째는 숫자 개수
+        numbers = list(map(int, content[1:]))
+
+    read_time = time.time()
+    numbers.sort()          #내장함수 (Timsort 기반)
+    sort_time = time.time()
+
+    print(f"파일 읽는 데 걸린 시간: {read_time - start_time:.2f}초")
+    print(f"정렬에 걸린 시간: {sort_time - read_time:.2f}초")
+    print(f"총 시간: {sort_time - start_time:.2f}초")
+if __name__ == "__main__":
+    main()
+
