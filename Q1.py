@@ -1,11 +1,10 @@
-# Json to Dict 코드
 import json
 import os
 import pandas as pd
-###
 
-### Q1 
-# 딕셔너리, 리스트 무관한 코드
+# 정렬 알고리즘 구현부 (공통 key 사용 가능)
+
+# 버블 정렬: 인접한 요소를 반복적으로 비교하며 정렬
 def bubble_sort(arr, key=lambda x: x):
     n = len(arr)
     for i in range(n):
@@ -14,6 +13,7 @@ def bubble_sort(arr, key=lambda x: x):
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
     return arr
 
+# 선택 정렬: 가장 작은 값을 찾아 앞으로 이동
 def selection_sort(arr, key=lambda x: x):
     n = len(arr)
     for i in range(n):
@@ -24,6 +24,7 @@ def selection_sort(arr, key=lambda x: x):
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
     return arr
 
+# 삽입 정렬: 현재 요소를 앞쪽 정렬된 부분에 적절히 삽입
 def insertion_sort(arr, key=lambda x: x):
     for i in range(1, len(arr)):
         key_item = arr[i]
@@ -34,6 +35,7 @@ def insertion_sort(arr, key=lambda x: x):
         arr[j + 1] = key_item
     return arr
 
+# 병합 정렬: 배열을 절반씩 나눈 후 병합하여 정렬
 def merge_sort(arr, key=lambda x: x):
     if len(arr) <= 1:
         return arr
@@ -42,6 +44,7 @@ def merge_sort(arr, key=lambda x: x):
     right = merge_sort(arr[mid:], key)
     return merge(left, right, key)
 
+# 병합 로직 (merge_sort에서 사용)
 def merge(left, right, key):
     result = []
     i = j = 0
@@ -52,14 +55,11 @@ def merge(left, right, key):
         else:
             result.append(right[j])
             j += 1
-    while i < len(left):
-        result.append(left[i])
-        i += 1
-    while j < len(right):
-        result.append(right[j])
-        j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
     return result
 
+# 퀵 정렬: 기준값을 중심으로 좌우 분할 후 재귀 정렬
 def quick_sort(arr, key=lambda x: x):
     if len(arr) <= 1:
         return arr
@@ -69,8 +69,7 @@ def quick_sort(arr, key=lambda x: x):
     right = [x for x in arr[1:] if key(x) > pivot]
     return quick_sort(left, key) + mid + quick_sort(right, key)
 
-
-# List로 인자를 받은 경우
+# 리스트 데이터를 입력받아 정렬하는 함수
 def solve_list_problem_1_(list_data):
     sort_algorithms = {
         "1": ("버블 정렬", bubble_sort),
@@ -80,26 +79,31 @@ def solve_list_problem_1_(list_data):
         "5": ("퀵 정렬", quick_sort),
     }
 
+    # 사용자에게 정렬 방식 선택 요청
     print("정렬 알고리즘 선택:")
     for k, (name, _) in sort_algorithms.items():
         print(f"{k}. {name}")
     algo_choice = input("번호 선택: ").strip()
 
+    # 잘못된 입력 처리
     if algo_choice not in sort_algorithms:
-        print("❌ 잘못된 번호입니다.")
+        print("잘못된 번호입니다.")
         return
 
     algo_name, sort_func = sort_algorithms[algo_choice]
 
-    print(f"\n📋 원본 리스트:")
+    # 정렬 전 리스트 출력
+    print("\n원본 리스트:")
     print(list_data)
 
+    # 정렬 수행
     sorted_arr = sort_func(list_data.copy())
 
-    print(f"\n✅ {algo_name} 결과:")
+    # 정렬 결과 출력
+    print(f"\n{algo_name} 결과:")
     print(sorted_arr)
 
-# 딕셔너리로 인자를 받은 경우
+# 딕셔너리 리스트 데이터를 특정 key 기준으로 정렬하는 함수
 def solve_dict_problem_1_(dict_data, sort_key):
     sort_algorithms = {
         "1": ("버블 정렬", bubble_sort),
@@ -109,23 +113,28 @@ def solve_dict_problem_1_(dict_data, sort_key):
         "5": ("퀵 정렬", quick_sort),
     }
 
+    # 사용자에게 정렬 방식 선택 요청
     print("정렬 알고리즘 선택:")
     for k, (name, _) in sort_algorithms.items():
         print(f"{k}. {name}")
     algo_choice = input("번호 선택: ").strip()
 
+    # 잘못된 입력 처리
     if algo_choice not in sort_algorithms:
-        print("❌ 잘못된 번호입니다.")
+        print("잘못된 번호입니다.")
         return
 
     algo_name, sort_func = sort_algorithms[algo_choice]
 
-    print(f"\n📋 원본 딕셔너리 리스트:")
+    # 정렬 전 딕셔너리 출력
+    print("\n원본 딕셔너리 리스트:")
     for item in dict_data:
         print(item)
 
+    # key를 기준으로 정렬 수행
     sorted_arr = sort_func(dict_data.copy(), key=lambda x: x[sort_key])
 
-    print(f"\n✅ {algo_name} 결과 ({sort_key} 기준 정렬):")
+    # 정렬 결과 출력
+    print(f"\n{algo_name} 결과 ({sort_key} 기준 정렬):")
     for item in sorted_arr:
         print(item)
