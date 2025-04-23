@@ -5,7 +5,9 @@
 # · 준비: 반복형/재귀형 이진 탐색 구현, 성공/실패 결과 반환 처리
 
 # · 비고: YES/NO 출력 형식에 유의
-####
+
+# 강아지
+
 import json
 import os
 import pandas as pd
