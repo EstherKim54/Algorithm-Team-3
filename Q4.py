@@ -1,57 +1,58 @@
 import random
 
-# 격자를 size x size 크기로 생성하는 함수
-# 각 셀에는 0부터 9까지의 랜덤한 정수가 들어감
+# gid 생성 함수
+# matrix를 list 구조로 반환
 def generate_grid(size):
     grid = []
-
-    # size만큼 행 반복
     for i in range(size):
         row = []
-
-        for j in range(size):
-            number = random.randint(0, 9)  # 0~9 사이의 랜덤 숫자
-            row.append(number)  # 숫자를 행에 추가
-
-        grid.append(row)  # 완성된 행을 격자에 추가
+        for i in range(size): # 열에 대한 list 생성
+            row.append(random.randint(0, size - 1))  # 최대 size-1까지만 생성
+        grid.append(row)
     return grid
 
-# 격자를 출력하는 함수
+# Matrix 출력 함수
 def print_grid(grid):
-    # 격자의 각 행을 하나씩 꺼냄냄
     for row in grid:
-        line = ""
-        for num in row:
-            # 각 숫자를 문자열로 변환하고 공백을 사이에 넣어 연결
-            line += str(num) + " "
-        print(line.strip())  # 마지막 공백 제거 후 출력
+        print(" ".join(str(num) for num in row))
 
-# 0을 찾고 경로를 출력하는 함수
-def find_zero_with_path(grid):
+# DFS 함수
+def dfs(grid, x, y, visited, path):
     size = len(grid)
-    path = []
+    if x < 0 or x >= size or y < 0 or y >= size or visited[x][y]:
+        return False
+    
+    # 경로 좌표를 path에 저장 후 True로 지정
+    path.append((x, y))
+    visited[x][y] = True
 
-    for i in range(size):
-        for j in range(size):
-            path.append((i, j))
-            if grid[i][j] == 0:
-                print("YES")
-                formatted_path = " -> ".join(str(p) for p in path)
-                print(f"{formatted_path} -> 0 도달 -> 성공")
-                return 
-    print("NO")
+    # 0을 만났을 때
+    if grid[x][y] == 0:
+        print("YES")
+        print(" -> ".join(str(p) for p in path) + " -> 0 도달 -> 성공")
+        return True
 
-# 메인 함수
-# 격자 크기 입력받아 격자 생성 및 출력
-def main():
-    size = int(input("격자 크기를 입력하세요 (예: 3): "))
+    # 몇 칸을 어디로 옮길 것인지 결정
+    step = grid[x][y]
+    directions = [(-step, 0), (step, 0), (0, -step), (0, step)]  # 상, 하, 좌, 우
+
+    for dx, dy in directions:
+        nx, ny = x + dx, y + dy
+        if dfs(grid, nx, ny, visited, path): # 새롭게 도달한 좌표로 다시 한 번 dfs 함수 동작
+            return True
+
+    path.pop()
+    visited[x][y] = False
+    return False
+
+# 실행 함수
+def run_escape_algorithm(size):
     grid = generate_grid(size)
-
-    print("\n생성된 격자:")
     print_grid(grid)
-
     print("\n경로 추적:")
-    find_zero_with_path(grid)
+    visited = [[False]*size for i in range(size)]
+    if not dfs(grid, 0, 0, visited, []):
+        print("NO")
 
-if __name__ == "__main__":
-    main()
+# 예시 실행
+run_escape_algorithm(4)
