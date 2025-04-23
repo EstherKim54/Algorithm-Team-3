@@ -103,8 +103,12 @@ def solve_list_problem_1_(list_data):
     print(f"\n{algo_name} 결과:")
     print(sorted_arr)
 
-# 리스트 또는 딕셔너리 리스트를 정렬하는 함수 (key_name에 따라 분기)
+# 리스트 또는 딕셔너리 리스트를 정렬하는 함수
+# data: 정렬 대상 데이터 (리스트 또는 딕셔너리 리스트)
+# key_name: 딕셔너리 리스트인 경우 정렬 기준이 되는 키 이름 (None이면 일반 리스트로 처리)
 def solve_problem_1(data, key_name=None):
+    # 사용 가능한 정렬 알고리즘을 딕셔너리로 정의
+    # 키: 사용자 입력값 (문자열), 값: (알고리즘 이름, 알고리즘 함수)
     sort_algorithms = {
         "1": ("버블 정렬", bubble_sort),
         "2": ("선택 정렬", selection_sort),
@@ -113,34 +117,44 @@ def solve_problem_1(data, key_name=None):
         "5": ("퀵 정렬", quick_sort),
     }
 
-    # 정렬 알고리즘 선택
+    # 사용자에게 정렬 알고리즘 선택을 안내
     print("정렬 알고리즘 선택:")
     for k, (name, _) in sort_algorithms.items():
         print(f"{k}. {name}")
+
+    # 사용자 입력을 받아 선택한 알고리즘 결정
     algo_choice = input("번호 선택: ").strip()
 
+    # 입력값 검증: 선택이 잘못된 경우 함수 종료
     if algo_choice not in sort_algorithms:
         print("잘못된 번호입니다.")
         return
 
+    # 선택한 알고리즘 이름과 정렬 함수 가져오기
     algo_name, sort_func = sort_algorithms[algo_choice]
 
-    # key_name이 없는 경우: 일반 리스트 처리
+    # 일반 리스트일 경우 (key_name이 없는 경우)
     if key_name is None:
         print("\n📋 원본 리스트:")
         print(data)
 
+        # 정렬 함수 호출 (원본을 복사해서 정렬)
         sorted_arr = sort_func(data.copy())
+
+        # 정렬 결과 출력
         print(f"\n✅ {algo_name} 결과:")
         print(sorted_arr)
 
-    # key_name이 있는 경우: 딕셔너리 리스트 처리
+    # 딕셔너리 리스트일 경우 (key_name 기준으로 정렬)
     else:
         print(f"\n📋 원본 딕셔너리 리스트 ({key_name} 기준):")
         for item in data:
             print(item)
 
+        # 정렬 함수 호출 (key 매개변수로 정렬 기준 함수 전달)
         sorted_arr = sort_func(data.copy(), key=lambda x: x[key_name])
+
+        # 정렬 결과 출력
         print(f"\n✅ {algo_name} 결과 ({key_name} 기준 정렬):")
         for item in sorted_arr:
             print(item)
