@@ -103,8 +103,8 @@ def solve_list_problem_1_(list_data):
     print(f"\n{algo_name} 결과:")
     print(sorted_arr)
 
-# 딕셔너리 리스트 데이터를 특정 key 기준으로 정렬하는 함수
-def solve_dict_problem_1_(dict_data, sort_key):
+# 리스트 또는 딕셔너리 리스트를 정렬하는 함수 (key_name에 따라 분기)
+def solve_problem_1(data, key_name=None):
     sort_algorithms = {
         "1": ("버블 정렬", bubble_sort),
         "2": ("선택 정렬", selection_sort),
@@ -113,28 +113,34 @@ def solve_dict_problem_1_(dict_data, sort_key):
         "5": ("퀵 정렬", quick_sort),
     }
 
-    # 사용자에게 정렬 방식 선택 요청
+    # 정렬 알고리즘 선택
     print("정렬 알고리즘 선택:")
     for k, (name, _) in sort_algorithms.items():
         print(f"{k}. {name}")
     algo_choice = input("번호 선택: ").strip()
 
-    # 잘못된 입력 처리
     if algo_choice not in sort_algorithms:
         print("잘못된 번호입니다.")
         return
 
     algo_name, sort_func = sort_algorithms[algo_choice]
 
-    # 정렬 전 딕셔너리 출력
-    print("\n원본 딕셔너리 리스트:")
-    for item in dict_data:
-        print(item)
+    # key_name이 없는 경우: 일반 리스트 처리
+    if key_name is None:
+        print("\n📋 원본 리스트:")
+        print(data)
 
-    # key를 기준으로 정렬 수행
-    sorted_arr = sort_func(dict_data.copy(), key=lambda x: x[sort_key])
+        sorted_arr = sort_func(data.copy())
+        print(f"\n✅ {algo_name} 결과:")
+        print(sorted_arr)
 
-    # 정렬 결과 출력
-    print(f"\n{algo_name} 결과 ({sort_key} 기준 정렬):")
-    for item in sorted_arr:
-        print(item)
+    # key_name이 있는 경우: 딕셔너리 리스트 처리
+    else:
+        print(f"\n📋 원본 딕셔너리 리스트 ({key_name} 기준):")
+        for item in data:
+            print(item)
+
+        sorted_arr = sort_func(data.copy(), key=lambda x: x[key_name])
+        print(f"\n✅ {algo_name} 결과 ({key_name} 기준 정렬):")
+        for item in sorted_arr:
+            print(item)
