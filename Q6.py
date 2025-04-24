@@ -6,11 +6,10 @@ grid = [
     list("......#.#."),
     list(".#.#..#.#."),
     list(".#.####.#."),
-    list("……..#."),
+    list("........#."),
     list(".######.#."),
-    list("……..E.")
+    list("........E.")
 ]
-
 def move(maze, x, y, count=0):
     # 종료 조건: E를 만나면 탐색 종료
     if maze[y][x] == 'E':
@@ -27,5 +26,4 @@ def move(maze, x, y, count=0):
         if move(maze, x, y + 1, count + 1):
             return True
 
-    return False  # 도달 불가능하면 false 반환
 move(grid,0,0)
