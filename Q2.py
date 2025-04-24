@@ -1,62 +1,32 @@
-# 문제 2: 이진 탐색 기반 탐지
+lst = [31, -36, -47, 44, -15, -19, -22, -33, 44, -37, 36, 44, 19, -39, 25, 4, -46, -47, -39, -23,
+ -21, 14, 27, -47, 21, -25, 41, 33, 39, 19, 3, -22, 7, 25, -15, -50, 47, -30, 39, 4,
+ -7, -15, -31, -23, 47, -7, -37, -39, -2, -38, -5, -6, 27, -17, -45, 43, 8, 18, -35, -2,
+ -40, 20, -13, 30, 29, -4, 23, -26, 40, -42, -45, 34, -21, 48, -13, -40, -21, -38, -2, -15,
+ 8, 31, -4, -30, -3, -5, -24, 35, -16, 39, 37, 32, -41, 27, 31, -29, 18, 43, -19, -30]
 
-# · 내용: 정렬된 리스트에서 특정 값을 이진 탐색으로 찾기
+def find_target_indices(lst, target):
+    lst = sorted(lst)  # 정렬
+    left, right = 0, len(lst) - 1
+    found = False
 
-# · 준비: 반복형/재귀형 이진 탐색 구현, 성공/실패 결과 반환 처리
-
-# · 비고: YES/NO 출력 형식에 유의
-
-import json
-import os
-import pandas as pd
-
-# 반복형 이진 탐색 구현 (key 함수 사용 가능)
-def binary_search_iterative(arr, target, key=lambda x: x):
-    left, right = 0, len(arr) - 1
     while left <= right:
         mid = (left + right) // 2
-        value = key(arr[mid])
-        if value == target:
-            return "YES"
-        elif value < target:
+        if lst[mid] == target:
+            found = True
+            break
+        elif lst[mid] < target:
             left = mid + 1
         else:
             right = mid - 1
-    return "NO"
 
-# 재귀형 이진 탐색 구현 (key 함수 사용 가능)
-def binary_search_recursive(arr, target, left, right, key=lambda x: x):
-    if left > right:
-        return "NO"
-    mid = (left + right) // 2
-    value = key(arr[mid])
-    if value == target:
-        return "YES"
-    elif value < target:
-        return binary_search_recursive(arr, target, mid + 1, right, key)
-    else:
-        return binary_search_recursive(arr, target, left, mid - 1, key)
+    if not found:
+        print("Not Found")
+        return
 
-# 딕셔너리 리스트 대상 이진 탐색 실행 함수
-# 딕셔너리 리스트 대상 이진 탐색 실행 함수
-def solve_problem_2(arr, target, key_name=None):
-    # 정렬 수행
-    if key_name is None:
-        arr = sorted(arr)
-        print("📋 검색 대상 리스트 (원소 자체 비교, 정렬됨):")
-        print(arr)
-        result_iter = binary_search_iterative(arr, target)
-        result_rec  = binary_search_recursive(arr, target, 0, len(arr) - 1)
-    else:
-        arr = sorted(arr, key=lambda x: x[key_name])
-        print(f"📋 검색 대상 리스트 ({key_name} 기준 정렬됨):")
-        for item in arr:
-            print(item)
-        result_iter = binary_search_iterative(arr, target, key=lambda x: x[key_name])
-        result_rec  = binary_search_recursive(arr, target, 0, len(arr) - 1, key=lambda x: x[key_name])
+    # 존재할 경우 인덱스 출력 및 합 계산
+    indices = [i for i, val in enumerate(lst) if val == target]
+    print(indices)
+    print(indices[0] + indices[-1])
 
-    # 최종 결과 출력
-    print(f"▶ 반복형 결과: {result_iter}")
-    print(f"▶ 재귀형 결과: {result_rec}")
-
+find_target_indices(lst,-15)
 

@@ -1,5 +1,3 @@
-
-### Solv
 shuffled_list = [
     "-900", "3", "baz", "six^", "2", "65", "comma,", "0", "adipiscing", "-500",
     "space ", "foo", "15", "75", "-100", "10", "one!", "lorem", "one", "-600",
@@ -58,7 +56,10 @@ def insertion_sort(arr, key=lambda x: x):
     print(f"삽입 정렬 시간: {end_time - start_time:.6f}초")
     return arr
 
-
+total = 0
+for num in arr:
+    total += num
+print(f"리스트의 합: {total}")
 print(insertion_sort(arr))
 
 # 사용한 정렬 알고리즘: 삽입정렬
