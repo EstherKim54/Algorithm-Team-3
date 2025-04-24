@@ -15,15 +15,16 @@ def frequency_sort(nums: list[int]) -> list[tuple[int,int]]:
     return sorted_items
 
 if __name__ == "__main__":
-    # 4) 예시: 1~10 사이 랜덤 숫자 100개 뽑아서 테스트
     nums = [5, 3, 3, 2, 2, 1, 5, 5, 4, 5, 4, 4]
 
     print(nums)
 
     # 5) 함수 호출
     result = frequency_sort(nums)
-  
+    print(result)
+
     # 6) 결과 출력
-    print("빈도↓·숫자↓ 정렬 결과:")
-    for num, count in result:
-        print(num, count)
+    print(result[0][0])
+    print(result[0][1])
+    passcord = result[0][0] + result[0][1]
+    print(passcord)
