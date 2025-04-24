@@ -1,31 +1,51 @@
-import json
-import os
-import pandas as pd
 
-# 정렬 알고리즘 구현부 (공통 key 사용 가능)
+### Solv
+shuffled_list = [
+    "-900", "3", "baz", "six^", "2", "65", "comma,", "0", "adipiscing", "-500",
+    "space ", "foo", "15", "75", "-100", "10", "one!", "lorem", "one", "-600",
+    "-450", "bar", "world", "five%", "star*", "ten", "four$", "500", "95", "thousand",
+    "300", "-50", "-25", "70", "minus", "xyz", "-200", "abc!", "do", "-888",
+    "35", "incididunt", "400", "7", "700", "-20", "100", "500", "100", "hello",
+    "3a", "55", "three#", "-350", "-10", "five", "4", "-4", "-700", "2",
+    "abc", "xyz", "-250", "2", "zero", "-650", "-15", "ten)", "consectetur", "-1",
+    "45", "eight*", "elit", "-77", "-50", "ten", "0", "underscore_", "four", "-100",
+    "-300", "-10", "40", "-850", "seven&", "700", "-200", "amet", "-25", "1",
+    "33", "85", "dolore", "nine(", "99", "dolor", "6", "-999", "3", "baz",
+    "lorem", "six^", "bar", "seven&", "100", "xyz", "two@", "adipiscing", "-200", "abc!",
+    "-1000", "nine(", "5", "-850", "consectetur", "999", "bar", "xyz", "-700", "999",
+    "foo", "plus", "70", "-900", "-20", "-250", "incididunt", "three#", "one!", "hello",
+    "six^", "1", "-777", "abc", "comma,", "cat", "bar", "baz", "baz", "3a",
+    "abc123", "-500", "7", "-650", "-300", "hello", "bar", "NaN", "999", "space ",
+    "999", "star*", "ten", "-450", "underscore_", "three#", "baz", "five", "-100", "-1000",
+    "-100", "baz", "one", "1.5", "nine(", "-15", "five%", "5", "six^", "-300",
+    "consectetur", "-100", "cat", "eight*", "baz", "baz", "space ", "baz", "baz", "baz"
+]
 
-# 버블 정렬: 인접한 요소를 반복적으로 비교하며 정렬
-def bubble_sort(arr, key=lambda x: x):
-    n = len(arr)
-    for i in range(n):
-        for j in range(n - i - 1):
-            if key(arr[j]) > key(arr[j + 1]):
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr
+# 문자를 숫자로 바꿈, 에러가나는 경우를 빼고
+processed_list = []
+for item in shuffled_list:
+    try:
+        # 숫자로 변환 가능한 경우 float으로 변환 (정수든 실수든 다 커버)
+        number = int(item)
+        processed_list.append(number)
+    except (ValueError, TypeError):
+        continue
 
-# 선택 정렬: 가장 작은 값을 찾아 앞으로 이동
-def selection_sort(arr, key=lambda x: x):
-    n = len(arr)
-    for i in range(n):
-        min_idx = i
-        for j in range(i + 1, n):
-            if key(arr[j]) < key(arr[min_idx]):
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-    return arr
+# 기존 processed_list에서 중복 제거 (순서 유지)
+arr = []
+seen = set()
 
-# 삽입 정렬: 현재 요소를 앞쪽 정렬된 부분에 적절히 삽입
+for num in processed_list:
+    if num not in seen: # set을 이용해서 처음 이후 두번쨰 만나는 값들은 모두 무시
+        arr.append(num)
+        seen.add(num) 
+
+import time
+
+# 삽입 정렬
 def insertion_sort(arr, key=lambda x: x):
+    start_time = time.time()
+
     for i in range(1, len(arr)):
         key_item = arr[i]
         j = i - 1
@@ -33,156 +53,50 @@ def insertion_sort(arr, key=lambda x: x):
             arr[j + 1] = arr[j]
             j -= 1
         arr[j + 1] = key_item
+
+    end_time = time.time()
+    print(f"삽입 정렬 시간: {end_time - start_time:.6f}초")
     return arr
 
-# 병합 정렬: 배열을 절반씩 나눈 후 병합하여 정렬
-def merge_sort(arr, key=lambda x: x):
-    if len(arr) <= 1:
-        return arr
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid], key)
-    right = merge_sort(arr[mid:], key)
-    return merge(left, right, key)
 
-# 병합 로직 (merge_sort에서 사용)
-def merge(left, right, key):
-    result = []
-    i = j = 0
-    while i < len(left) and j < len(right):
-        if key(left[i]) < key(right[j]):
-            result.append(left[i])
-            i += 1
-        else:
-            result.append(right[j])
-            j += 1
-    result.extend(left[i:])
-    result.extend(right[j:])
-    return result
+# 선택 정렬
+def selection_sort(arr, key=lambda x: x):
+    start_time = time.time()
 
-# 퀵 정렬: 기준값을 중심으로 좌우 분할 후 재귀 정렬
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if key(arr[j]) < key(arr[min_idx]):
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+
+    end_time = time.time()
+    print(f"선택 정렬 시간: {end_time - start_time:.6f}초")
+    return arr
+
+
+# 퀵 정렬
 def quick_sort(arr, key=lambda x: x):
-    if len(arr) <= 1:
-        return arr
-    pivot = key(arr[0])
-    left = [x for x in arr[1:] if key(x) < pivot]
-    mid = [x for x in arr if key(x) == pivot]
-    right = [x for x in arr[1:] if key(x) > pivot]
-    return quick_sort(left, key) + mid + quick_sort(right, key)
+    start_time = time.time()
 
-# 리스트 데이터를 입력받아 정렬하는 함수
-def solve_list_problem_1_(list_data):
-    sort_algorithms = {
-        "1": ("버블 정렬", bubble_sort),
-        "2": ("선택 정렬", selection_sort),
-        "3": ("삽입 정렬", insertion_sort),
-        "4": ("병합 정렬", merge_sort),
-        "5": ("퀵 정렬", quick_sort),
-    }
+    def _quick_sort(inner_arr):
+        if len(inner_arr) <= 1:
+            return inner_arr
+        pivot = key(inner_arr[0])
+        left = [x for x in inner_arr[1:] if key(x) < pivot]
+        mid = [x for x in inner_arr if key(x) == pivot]
+        right = [x for x in inner_arr[1:] if key(x) > pivot]
+        return _quick_sort(left) + mid + _quick_sort(right)
 
-    # 사용자에게 정렬 방식 선택 요청
-    print("정렬 알고리즘 선택:")
-    for k, (name, _) in sort_algorithms.items():
-        print(f"{k}. {name}")
-    algo_choice = input("번호 선택: ").strip()
+    sorted_arr = _quick_sort(arr)
+    end_time = time.time()
+    print(f"퀵 정렬 시간: {end_time - start_time:.6f}초")
+    return sorted_arr
 
-    # 잘못된 입력 처리
-    if algo_choice not in sort_algorithms:
-        print("잘못된 번호입니다.")
-        return
 
-    algo_name, sort_func = sort_algorithms[algo_choice]
+print(quick_sort(arr))
+print(selection_sort(arr))
+print(insertion_sort(arr))
 
-    # 정렬 전 리스트 출력
-    print("\n원본 리스트:")
-    print(list_data)
-
-    # 정렬 수행
-    sorted_arr = sort_func(list_data.copy())
-
-    # 정렬 결과 출력
-    print(f"\n{algo_name} 결과:")
-    print(sorted_arr)
-
-# 리스트 또는 딕셔너리 리스트를 정렬하는 함수
-# data: 정렬 대상 데이터 (리스트 또는 딕셔너리 리스트)
-# key_name: 딕셔너리 리스트인 경우 정렬 기준이 되는 키 이름 (None이면 일반 리스트로 처리)
-def solve_problem_1(data, key_name=None):
-    # 사용 가능한 정렬 알고리즘을 딕셔너리로 정의
-    # 키: 사용자 입력값 (문자열), 값: (알고리즘 이름, 알고리즘 함수)
-    sort_algorithms = {
-        "1": ("버블 정렬", bubble_sort),
-        "2": ("선택 정렬", selection_sort),
-        "3": ("삽입 정렬", insertion_sort),
-        "4": ("병합 정렬", merge_sort),
-        "5": ("퀵 정렬", quick_sort),
-    }
-
-    # 사용자에게 정렬 알고리즘 선택을 안내
-    print("정렬 알고리즘 선택:")
-    for k, (name, _) in sort_algorithms.items():
-        print(f"{k}. {name}")
-
-    # 사용자 입력을 받아 선택한 알고리즘 결정
-    algo_choice = input("번호 선택: ").strip()
-
-    # 입력값 검증: 선택이 잘못된 경우 함수 종료
-    if algo_choice not in sort_algorithms:
-        print("잘못된 번호입니다.")
-        return
-
-    # 선택한 알고리즘 이름과 정렬 함수 가져오기
-    algo_name, sort_func = sort_algorithms[algo_choice]
-
-    # 일반 리스트일 경우 (key_name이 없는 경우)
-    if key_name is None:
-        print("\n📋 원본 리스트:")
-        print(data)
-
-        # 정렬 함수 호출 (원본을 복사해서 정렬)
-        sorted_arr = sort_func(data.copy())
-
-        # 정렬 결과 출력
-        print(f"\n✅ {algo_name} 결과:")
-        print(sorted_arr)
-
-    # 딕셔너리 리스트일 경우 (key_name 기준으로 정렬)
-    else:
-        print(f"\n📋 원본 딕셔너리 리스트 ({key_name} 기준):")
-        for item in data:
-            print(item)
-
-        # 정렬 함수 호출 (key 매개변수로 정렬 기준 함수 전달)
-        sorted_arr = sort_func(data.copy(), key=lambda x: x[key_name])
-
-        # 정렬 결과 출력
-        print(f"\n✅ {algo_name} 결과 ({key_name} 기준 정렬):")
-        for item in sorted_arr:
-            print(item)
-
-# 모든 정렬 알고리즘을 사용하여 결과를 출력하는 함수
-def solve_problem_1_all(data, key_name=None):
-    sort_algorithms = {
-        "1": ("버블 정렬", bubble_sort),
-        "2": ("선택 정렬", selection_sort),
-        "3": ("삽입 정렬", insertion_sort),
-        "4": ("병합 정렬", merge_sort),
-        "5": ("퀵 정렬", quick_sort),
-    }
-
-    print("📋 원본 데이터:")
-    if key_name is None: # 키가 없으면 리스트로 
-        print(data) 
-    else: # 키가 있다면 딕셔너리 형태
-        for item in data:
-            print(item)
-
-    print("\n📊 모든 정렬 결과:")
-    for algo_key, (algo_name, sort_func) in sort_algorithms.items():
-        print(f"\n🔹 {algo_name} 결과:")
-        if key_name is None:
-            sorted_arr = sort_func(data.copy())
-            print(sorted_arr)
-        else:
-            sorted_arr = sort_func(data.copy(), key=lambda x: x[key_name])
-            for item in sorted_arr:
-                print(item)
+# 51개의 작은 리스트 값일 경우 선택정렬이 가장 시간복잡도가 낮다. 
