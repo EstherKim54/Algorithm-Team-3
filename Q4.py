@@ -59,14 +59,27 @@ def dfs(grid, x, y, visited, path):
         visited[x][y] = False
         return False
 
+grid = [
+    [3, 4, 1, 2, 5, 2, 3, 2, 1, 1],
+    [1, 2, 3, 2, 1, 4, 2, 2, 3, 2],
+    [2, 1, 1, 3, 2, 1, 1, 3, 1, 2],
+    [3, 2, 4, 2, 3, 1, 2, 1, 4, 2],
+    [1, 3, 2, 1, 1, 2, 4, 3, 2, 3],
+    [2, 2, 1, 4, 3, 3, 1, 2, 3, 1],
+    [1, 1, 2, 1, 2, 4, 3, 1, 2, 1],
+    [3, 3, 1, 2, 3, 1, 1, 4, 2, 2],
+    [2, 1, 2, 3, 2, 2, 1, 2, 3, 1],
+    [1, 2, 1, 1, 1, 1, 1, 3, 2, 0]  # (9, 9)이 도착점
+]
+
+
+
 # 실행 함수
 def run_escape_algorithm(size):
-    grid = generate_grid(size)
-    print_grid(grid)
     print("\n경로 추적:")
     visited = [[False]*size for i in range(size)]
     if not dfs(grid, 0, 0, visited, []):
         print("NO")
 
 # 예시 실행
-run_escape_algorithm(int(input("격자 크기: ")))
+run_escape_algorithm(10)
