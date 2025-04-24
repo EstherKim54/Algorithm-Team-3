@@ -32,4 +32,6 @@ def find_target_indices(lst, target):
 
 find_target_indices(lst,-15)  # lst리스트와 타겟변수를 활용하여 문제 풀이
 
-
+# 정답 
+# [40, 41, 42, 43]
+# 83
