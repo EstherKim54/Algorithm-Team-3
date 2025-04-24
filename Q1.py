@@ -59,44 +59,7 @@ def insertion_sort(arr, key=lambda x: x):
     return arr
 
 
-# 선택 정렬
-def selection_sort(arr, key=lambda x: x):
-    start_time = time.time()
-
-    n = len(arr)
-    for i in range(n):
-        min_idx = i
-        for j in range(i + 1, n):
-            if key(arr[j]) < key(arr[min_idx]):
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-
-    end_time = time.time()
-    print(f"선택 정렬 시간: {end_time - start_time:.6f}초")
-    return arr
-
-
-# 퀵 정렬
-def quick_sort(arr, key=lambda x: x):
-    start_time = time.time()
-
-    def _quick_sort(inner_arr):
-        if len(inner_arr) <= 1:
-            return inner_arr
-        pivot = key(inner_arr[0])
-        left = [x for x in inner_arr[1:] if key(x) < pivot]
-        mid = [x for x in inner_arr if key(x) == pivot]
-        right = [x for x in inner_arr[1:] if key(x) > pivot]
-        return _quick_sort(left) + mid + _quick_sort(right)
-
-    sorted_arr = _quick_sort(arr)
-    end_time = time.time()
-    print(f"퀵 정렬 시간: {end_time - start_time:.6f}초")
-    return sorted_arr
-
-
-print(quick_sort(arr))
-print(selection_sort(arr))
 print(insertion_sort(arr))
 
+# 사용한 정렬 알고리즘: 삽입정렬
 # 51개의 작은 리스트 값일 경우 선택정렬이 가장 시간복잡도가 낮다. 
