@@ -32,7 +32,6 @@ if __name__ == "__main__":
     result = frequency_sort(nums)
     print(result)
 
-    
     # 결과 출력
     passcord = result[0][0] + result[0][1]
   
