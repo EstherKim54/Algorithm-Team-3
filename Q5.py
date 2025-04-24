@@ -4,10 +4,10 @@ import csv
 
 numbers = []
 
-def generate_number():
-  for i in range(1,1000001):
-    a = random.randint(0,1000000)
-    numbers.append(a)
+def generate_number():        #숫자 무작위 생성
+  for i in range(1,1000001):      #1,000,000번으로의 반복으로 1,000,000개 숫자 생성
+    a = random.randint(1,1000000)       #random으로 1부터 1,000,000 사이의 숫자로 만들기
+    numbers.append(a)       #무작위 숫자 list으로 생성
 
 def sorting():
     start_time = time.time()
@@ -36,7 +36,7 @@ def sorting():
 sorting()
 
 '''
-[2, 4, 7, 9, 10, 11, 13, 15, 15, 16]
-실행시간 : 0.67초
+[2, 3, 3, 5, 5, 5, 6, 7, 7, 7]
+실행시간 : 0.69초
 PASSCORD =  TRUE
 '''
