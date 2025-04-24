@@ -15,7 +15,8 @@ def frequency_sort(nums: list[int]) -> list[tuple[int,int]]:
     return sorted_items
 
 if __name__ == "__main__":
-    nums = [5, 3, 3, 2, 2, 1, 5, 5, 4, 5, 4, 4]
+    nums = [4, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+
 
     print(nums)
 
