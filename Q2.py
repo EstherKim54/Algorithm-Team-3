@@ -5,10 +5,11 @@ lst = [31, -36, -47, 44, -15, -19, -22, -33, 44, -37, 36, 44, 19, -39, 25, 4, -4
  8, 31, -4, -30, -3, -5, -24, 35, -16, 39, 37, 32, -41, 27, 31, -29, 18, 43, -19, -30]
 
 def find_target_indices(lst, target):
-    lst = sorted(lst)  # 정렬
-    left, right = 0, len(lst) - 1
-    found = False
-
+    lst = sorted(lst)  # 이진 탐색을 위해 정렬
+    left, right = 0, len(lst) - 1 # left right 설정
+    found = False # 기존 설정값은 False
+    
+    # 이진 탐색으로 target 존재 여부 확인
     while left <= right:
         mid = (left + right) // 2
         if lst[mid] == target:
@@ -19,14 +20,16 @@ def find_target_indices(lst, target):
         else:
             right = mid - 1
 
+    # Target이 없다면 출력할 문구
     if not found:
         print("Not Found")
         return
 
-    # 존재할 경우 인덱스 출력 및 합 계산
+    # 정렬된 리스트에서 target의 모든 인덱스 찾기
     indices = [i for i, val in enumerate(lst) if val == target]
-    print(indices)
-    print(indices[0] + indices[-1])
+    print(indices) # 위치 리스트 출력
+    print(indices[0] + indices[-1]) # 첫+마지막 인덱스 합 출력
 
-find_target_indices(lst,-15)
+find_target_indices(lst,-15)  # lst리스트와 타겟변수를 활용하여 문제 풀이
+
 

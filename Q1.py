@@ -19,7 +19,7 @@ shuffled_list = [
     "consectetur", "-100", "cat", "eight*", "baz", "baz", "space ", "baz", "baz", "baz"
 ]
 
-# 문자를 숫자로 바꿈, 에러가나는 경우를 빼고
+# 문자를 숫자로 바꾸고 해당 과정에서 에러가나는 경우는 제외
 processed_list = []
 for item in shuffled_list:
     try:
@@ -30,8 +30,8 @@ for item in shuffled_list:
         continue
 
 # 기존 processed_list에서 중복 제거 (순서 유지)
-arr = []
-seen = set()
+arr = [] # 중복되지 않는 요소들을 모을 리스트
+seen = set() # 중복을 확인하기 위한 set 생성
 
 for num in processed_list:
     if num not in seen: # set을 이용해서 처음 이후 두번쨰 만나는 값들은 모두 무시
@@ -42,23 +42,32 @@ import time
 
 # 삽입 정렬
 def insertion_sort(arr, key=lambda x: x):
-    start_time = time.time()
+    start_time = time.time()  # 실행 시간 측정 시작
 
+    # 두 번째 원소부터 시작해서 앞쪽 정렬된 구간에 삽입
     for i in range(1, len(arr)):
-        key_item = arr[i]
+        key_item = arr[i]  # 현재 삽입 대상
         j = i - 1
+
+        # 현재 아이템보다 큰 값들을 한 칸씩 뒤로 밀기
         while j >= 0 and key(arr[j]) > key(key_item):
             arr[j + 1] = arr[j]
             j -= 1
+
+        # 빈 자리에 현재 아이템 삽입
         arr[j + 1] = key_item
 
-    end_time = time.time()
-    print(f"삽입 정렬 시간: {end_time - start_time:.6f}초")
-    return arr
+    end_time = time.time()  # 실행 시간 측정 종료
+    print(f"삽입 정렬 시간: {end_time - start_time:.6f}초")  # 실행 시간 출력
+    return arr  # 정렬된 리스트 반환
 
+
+# 리스트의 합을 확인할 코드 (모든 요소들을 모두 더함)
 total = 0
 for num in arr:
-    total += num
+    total += num 
+
+# 결과 확인
 print(f"리스트의 합: {total}")
 print(insertion_sort(arr))
 
