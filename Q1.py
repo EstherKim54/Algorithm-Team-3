@@ -158,3 +158,31 @@ def solve_problem_1(data, key_name=None):
         print(f"\n✅ {algo_name} 결과 ({key_name} 기준 정렬):")
         for item in sorted_arr:
             print(item)
+
+# 모든 정렬 알고리즘을 사용하여 결과를 출력하는 함수
+def solve_problem_1_all(data, key_name=None):
+    sort_algorithms = {
+        "1": ("버블 정렬", bubble_sort),
+        "2": ("선택 정렬", selection_sort),
+        "3": ("삽입 정렬", insertion_sort),
+        "4": ("병합 정렬", merge_sort),
+        "5": ("퀵 정렬", quick_sort),
+    }
+
+    print("📋 원본 데이터:")
+    if key_name is None: # 키가 없으면 리스트로 
+        print(data) 
+    else: # 키가 있다면 딕셔너리 형태
+        for item in data:
+            print(item)
+
+    print("\n📊 모든 정렬 결과:")
+    for algo_key, (algo_name, sort_func) in sort_algorithms.items():
+        print(f"\n🔹 {algo_name} 결과:")
+        if key_name is None:
+            sorted_arr = sort_func(data.copy())
+            print(sorted_arr)
+        else:
+            sorted_arr = sort_func(data.copy(), key=lambda x: x[key_name])
+            for item in sorted_arr:
+                print(item)
