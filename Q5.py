@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 #정렬 알고리즘 나열하기
 
-#Quicksort 알고리즘
+#Quicksort 알고리즘 
 
 def quick_sort(data):
     if len(data) <= 1:
@@ -129,3 +129,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
