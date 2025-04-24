@@ -1,7 +1,6 @@
 import time
 import random
 
-
 numbers = []
 
 def generate_number():
@@ -27,3 +26,9 @@ def sorting():
     print('PASSCORD = ','FALSE')
 
 sorting()
+
+'''
+[0, 2, 2, 3, 4, 7, 9, 9, 9, 10]
+실행시간 : 0.15초
+PASSCORD =  TRUE
+'''
