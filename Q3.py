@@ -28,14 +28,12 @@ if __name__ == "__main__":
     8, 9, 0, 2, 1, 3, 5, 4, 6, 7]
 
 
-    print(nums)
-
     # 5) 함수 호출
     result = frequency_sort(nums)
     print(result)
 
+    
     # 6) 결과 출력
-    print(result[0][0])
-    print(result[0][1])
     passcord = result[0][0] + result[0][1]
-    print(passcord)
+  
+    print(f"PASSCORD =", result[0][0], "+", result[0][1], "=", passcord)
