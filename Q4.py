@@ -7,8 +7,12 @@ def generate_grid(size):
     for i in range(size):
         row = []
         for i in range(size): # 열에 대한 list 생성
-            row.append(random.randint(0, size - 1))  # 최대 size-1까지만 생성
+            row.append(random.randint(0, size - 1)) # 각 셀의 숫자는 0부터 size-1까지의 랜덤 숫자
         grid.append(row)
+    
+    zero_x = random.randint(0, size)
+    zero_y = random.randint(0, size)
+    grid[zero_x][zero_y] = 0
     return grid
 
 # Matrix 출력 함수
@@ -29,7 +33,7 @@ def dfs(grid, x, y, visited, path):
     # 0을 만났을 때
     if grid[x][y] == 0:
         print("YES")
-        print(" -> ".join(str(p) for p in path) + " -> 0 도달 -> 성공")
+        print(" -> ".join(str(p) for p in path) + '=' + str(grid[x][y]) +" -> 0 도달 -> 성공")
         return True
 
     # 몇 칸을 어디로 옮길 것인지 결정
