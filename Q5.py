@@ -1,5 +1,6 @@
 import time
 import random
+import csv
 
 numbers = []
 
@@ -11,8 +12,9 @@ def generate_number():
 def sorting():
     start_time = time.time()
     generate_number()       #1,000,000개 리스트 생성
-  
+
     numbers.sort()
+
     end_time = time.time()
 
     elapsed = end_time - start_time
@@ -22,13 +24,19 @@ def sorting():
 
     if elapsed and elapsed <3:
         print('PASSCORD = ','TRUE')
+        
+        with open("output.csv", mode="w",newline='') as file:
+          writer = csv.writer(file)
+          for item in numbers:
+            writer.writerow([item])
+
     else:
         print('PASSCORD = ','FALSE')
 
 sorting()
 
 '''
-[2, 2, 3, 3, 3, 3, 5, 6, 6, 6]
-실행시간 : 0.68초
+[2, 4, 7, 9, 10, 11, 13, 15, 15, 16]
+실행시간 : 0.67초
 PASSCORD =  TRUE
 '''
